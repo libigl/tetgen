@@ -2429,7 +2429,7 @@ bool tetgenio::load_tetmesh(char* filebasename, int object)
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-void tetgenio::save_nodes(char* filebasename)
+void tetgenio::save_nodes(char* filebasename, bool verbose)
 {
   FILE *fout;
   char outnodefilename[FILENAMESIZE];
@@ -2437,7 +2437,7 @@ void tetgenio::save_nodes(char* filebasename)
   int i, j;
 
   sprintf(outnodefilename, "%s.node", filebasename);
-  printf("Saving nodes to %s\n", outnodefilename);
+  if (verbose) printf("Saving nodes to %s\n", outnodefilename);
   fout = fopen(outnodefilename, "w");
   fprintf(fout, "%d  %d  %d  %d\n", numberofpoints, mesh_dim,
           numberofpointattributes, pointmarkerlist != NULL ? 1 : 0);
@@ -2463,7 +2463,7 @@ void tetgenio::save_nodes(char* filebasename)
   // If the point metrics exist, output them to a .mtr file.
   if ((numberofpointmtrs > 0) && (pointmtrlist != (REAL *) NULL)) {
     sprintf(outmtrfilename, "%s.mtr", filebasename);
-    printf("Saving metrics to %s\n", outmtrfilename);
+    if (verbose) printf("Saving metrics to %s\n", outmtrfilename);
     fout = fopen(outmtrfilename, "w");
     fprintf(fout, "%d  %d\n", numberofpoints, numberofpointmtrs);
     for (i = 0; i < numberofpoints; i++) {
@@ -2482,14 +2482,14 @@ void tetgenio::save_nodes(char* filebasename)
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-void tetgenio::save_elements(char* filebasename)
+void tetgenio::save_elements(char* filebasename, bool verbose)
 {
   FILE *fout;
   char outelefilename[FILENAMESIZE];
   int i, j;
 
   sprintf(outelefilename, "%s.ele", filebasename);
-  printf("Saving elements to %s\n", outelefilename);
+  if (verbose) printf("Saving elements to %s\n", outelefilename);
   fout = fopen(outelefilename, "w");
   if (mesh_dim == 3) {
     fprintf(fout, "%d  %d  %d\n", numberoftetrahedra, numberofcorners,
@@ -2529,14 +2529,14 @@ void tetgenio::save_elements(char* filebasename)
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-void tetgenio::save_faces(char* filebasename)
+void tetgenio::save_faces(char* filebasename, bool verbose)
 {
   FILE *fout;
   char outfacefilename[FILENAMESIZE];
   int i;
 
   sprintf(outfacefilename, "%s.face", filebasename);
-  printf("Saving faces to %s\n", outfacefilename);
+  if (verbose) printf("Saving faces to %s\n", outfacefilename);
   fout = fopen(outfacefilename, "w");
   fprintf(fout, "%d  %d\n", numberoftrifaces, 
           trifacemarkerlist != NULL ? 1 : 0);
@@ -2558,14 +2558,14 @@ void tetgenio::save_faces(char* filebasename)
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-void tetgenio::save_edges(char* filebasename)
+void tetgenio::save_edges(char* filebasename, bool verbose)
 {
   FILE *fout;
   char outedgefilename[FILENAMESIZE];
   int i;
 
   sprintf(outedgefilename, "%s.edge", filebasename);
-  printf("Saving edges to %s\n", outedgefilename);
+  if (verbose) printf("Saving edges to %s\n", outedgefilename);
   fout = fopen(outedgefilename, "w");
   fprintf(fout, "%d  %d\n", numberofedges, edgemarkerlist != NULL ? 1 : 0);
   for (i = 0; i < numberofedges; i++) {
@@ -2586,14 +2586,14 @@ void tetgenio::save_edges(char* filebasename)
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-void tetgenio::save_neighbors(char* filebasename)
+void tetgenio::save_neighbors(char* filebasename, bool verbose)
 {
   FILE *fout;
   char outneighborfilename[FILENAMESIZE];
   int i;
 
   sprintf(outneighborfilename, "%s.neigh", filebasename);
-  printf("Saving neighbors to %s\n", outneighborfilename);
+  if (verbose) printf("Saving neighbors to %s\n", outneighborfilename);
   fout = fopen(outneighborfilename, "w");
   fprintf(fout, "%d  %d\n", numberoftetrahedra, mesh_dim + 1);
   for (i = 0; i < numberoftetrahedra; i++) {
@@ -2619,7 +2619,7 @@ void tetgenio::save_neighbors(char* filebasename)
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-void tetgenio::save_poly(char* filebasename)
+void tetgenio::save_poly(char* filebasename, bool verbose)
 {
   FILE *fout;
   facet *f;
@@ -2628,7 +2628,7 @@ void tetgenio::save_poly(char* filebasename)
   int i, j, k;
 
   sprintf(outpolyfilename, "%s.poly", filebasename);
-  printf("Saving poly to %s\n", outpolyfilename);
+  if (verbose) printf("Saving poly to %s\n", outpolyfilename);
   fout = fopen(outpolyfilename, "w");
 
   // The zero indicates that the vertices are in a separate .node file.
@@ -2719,14 +2719,14 @@ void tetgenio::save_poly(char* filebasename)
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-void tetgenio::save_faces2smesh(char* filebasename)
+void tetgenio::save_faces2smesh(char* filebasename, bool verbose)
 {
   FILE *fout;
   char outsmeshfilename[FILENAMESIZE];
   int i, j;
 
   sprintf(outsmeshfilename, "%s.smesh", filebasename);
-  printf("Saving faces to %s\n", outsmeshfilename);
+  if (verbose) printf("Saving faces to %s\n", outsmeshfilename);
   fout = fopen(outsmeshfilename, "w");
 
   // The zero indicates that the vertices are in a separate .node file.

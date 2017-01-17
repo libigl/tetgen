@@ -343,13 +343,13 @@ public:
   bool load_medit(char*, int);
   bool load_plc(char*, int);
   bool load_tetmesh(char*, int);
-  void save_nodes(char*);
-  void save_elements(char*);
-  void save_faces(char*);
-  void save_edges(char*);
-  void save_neighbors(char*);
-  void save_poly(char*);
-  void save_faces2smesh(char*);
+  void save_nodes(char*, bool verbose = true);
+  void save_elements(char*, bool verbose = true);
+  void save_faces(char*, bool verbose = true);
+  void save_edges(char*, bool verbose = true);
+  void save_neighbors(char*, bool verbose = true);
+  void save_poly(char*, bool verbose = true);
+  void save_faces2smesh(char*, bool verbose = true);
 
   // Read line and parse string functions.
   char *readline(char* string, FILE* infile, int *linenumber);
