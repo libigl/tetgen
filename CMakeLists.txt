@@ -21,9 +21,10 @@ set(CXX_HEADERS tetgen.h)
 set(CXX_SOURCES tetgen.cxx predicates.cxx)
 
 if(TETGEN_BUILD_LIBRARY)
+  message("*** building tetgen library ***")
   add_library(tetgen STATIC ${CXX_SOURCES})
   add_library(tetgen::tetgen ALIAS tetgen)
-  target_compile_definitions(tetgen PRIVATE -DTETLIBRARY)
+  target_compile_definitions(tetgen PUBLIC "TETLIBRARY")
   # Generate position independent code
   set_target_properties(tetgen PROPERTIES POSITION_INDEPENDENT_CODE ON)
   target_include_directories(tetgen
@@ -37,6 +38,7 @@ if(TETGEN_BUILD_LIBRARY)
 endif()
 
 if(TETGEN_BUILD_EXECUTABLE)
+  message("*** building tetgen executable ***")
   add_executable(tetgen_exec ${CXX_SOURCES})
   set_target_properties(tetgen_exec PROPERTIES OUTPUT_NAME tetgen)
   if(CMAKE_BUILD_TYPE MATCHES Release)
