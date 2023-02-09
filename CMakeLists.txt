@@ -20,6 +20,14 @@ set(namespace "${PROJECT_NAME}::")
 set(CXX_HEADERS tetgen.h)
 set(CXX_SOURCES tetgen.cxx predicates.cxx)
 
+# flags / defs
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  set(TETGEN_OPTIMIZATION_FLAGS $<$<NOT:$<CONFIG:Debug>>:-O3>)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  set(TETGEN_OPTIMIZATION_FLAGS $<$<NOT:$<CONFIG:Debug>>:/O2>)
+endif()
+
+
 if(TETGEN_BUILD_LIBRARY)
   message("*** building tetgen library ***")
   add_library(tetgen STATIC ${CXX_SOURCES})
@@ -31,13 +39,7 @@ if(TETGEN_BUILD_LIBRARY)
     INTERFACE
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:${incl_dest}>)
-
-  # flags / defs
-  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(TETGENPY_OPTIMIZATION_FLAGS $<$<NOT:$<CONFIG:Debug>>:-O3>)
-  elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    set(TETGENPY_OPTIMIZATION_FLAGS $<$<NOT:$<CONFIG:Debug>>:/O2>)
-  endif()
+  target_compile_options(tetgen PRIVATE ${TETGEN_OPTIMIZATION_FLAGS}) 
 
 endif()
 
@@ -45,17 +47,11 @@ if(TETGEN_BUILD_EXECUTABLE)
   message("*** building tetgen executable ***")
   add_executable(tetgen_exec ${CXX_SOURCES})
   set_target_properties(tetgen_exec PROPERTIES OUTPUT_NAME tetgen)
-
-  # flags / defs
-  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(TETGENPY_OPTIMIZATION_FLAGS $<$<NOT:$<CONFIG:Debug>>:-O3>)
-  elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    set(TETGENPY_OPTIMIZATION_FLAGS $<$<NOT:$<CONFIG:Debug>>:/O2>)
-  endif()
+  target_compile_options(tetgen_exec PRIVATE ${TETGEN_OPTIMIZATION_FLAGS}) 
 endif()
 
 
-message("*** applied compile flags: ${TETGENPY_OPTIMIZATION_FLAGS} ***")
+message("*** applied optimization flags: ${TETGEN_OPTIMIZATION_FLAGS} ***")
 
 # configure config files
 include(CMakePackageConfigHelpers)
